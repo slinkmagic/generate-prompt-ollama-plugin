@@ -34,50 +34,53 @@ Stable Diffusion WebUI（SDWUI）用のプラグインで、Generateボタン押
 - 各バッチで異なるプロンプト拡張を行うことで、バリエーション豊かな画像生成を実現
 - バッチごとに独立したプロンプト処理により、同一設定でも多様性のある結果を取得
 
-## 開発環境
+## ドキュメント構造
 
-### 権限設定
-- `.claude/settings.local.json`で基本的なbashコマンドの実行が許可されています
+詳細な技術仕様と開発ガイドは以下のファイルに分割されています：
 
-### 開発要件
-- SDWUIプラグイン開発の知識
-- Ollama API仕様の理解
-- JavaScript/Python（SDWUIの実装言語に依存）
-- HTTP通信の実装
+- **[開発環境・セットアップ](docs/development.md)**: 開発環境、セキュリティ要件、セットアップ手順
+- **[プロジェクト構造](docs/project-structure.md)**: ディレクトリ構成、モジュール役割、ファイル構成
+- **[開発ワークフロー](docs/workflow.md)**: Git Worktree、テスト戦略、CI/CD、コード品質管理
+- **[技術仕様](docs/technical-specs.md)**: Ollama API仕様、プロンプト拡張ルール、SDWUI統合
+- **[開発手順](docs/setup-guide.md)**: Phase 1-3の詳細な実装手順とコマンド
 
-### セットアップ手順
-1. SDWUIの拡張機能ディレクトリに配置
-2. Ollama APIエンドポイントの設定（デフォルト: http://localhost:11434）
-3. プロンプト拡張ルールの設定
+## 開発コマンド
 
-### 前提条件
-- Ollamaがローカル環境で起動済みであること
-- Ollama APIエンドポイント（http://localhost:11434）にアクセス可能であること
+### テスト実行
+```bash
+pytest                     # Python テスト
+pytest tests/integration/  # 統合テスト
+```
 
-## セキュリティ要件
+### コード品質
+```bash
+black src/                 # Python フォーマット
+flake8 src/               # Python リント
+```
 
-### 機密情報の管理
-- **APIキー・認証情報**: 絶対にソースコードに直接記述しない
-- **環境変数の使用**: `.env`ファイルで設定、`.env.example`をテンプレートとして提供
-- **設定ファイル**: ローカル設定ファイルは`.gitignore`で除外済み
-- **ログ出力**: APIキーやトークンをログに出力しない
-
-### 開発時の注意事項
-- APIキーや認証情報は環境変数またはローカル設定ファイルで管理
-- 本番環境では適切な権限設定でファイルアクセスを制限
-- コードレビュー時は機密情報の漏洩をチェック
-- デバッグ情報にAPIキーが含まれないよう注意
-
-### ファイル管理
-- `.env`: 実際の設定値（Git管理対象外）
-- `.env.example`: 設定テンプレート（Git管理対象）
-- `secrets/`, `credentials/`: 認証情報ディレクトリ（Git管理対象外）
+### 開発サーバー
+```bash
+python scripts/dev_server.py  # 開発用テストサーバー
+```
 
 ## 実装方針
 
 ### 段階的開発
-1. **基本プラグイン構造の実装**
-2. **Ollama API通信機能の実装**
+1. **基本プラグイン構造の実装** → [開発手順](docs/setup-guide.md)参照
+2. **Ollama API通信機能の実装** → [技術仕様](docs/technical-specs.md)参照
 3. **プロンプト拡張ロジックの実装**
 4. **SDWUIとの統合テスト**
 5. **ユーザー設定機能の追加**
+
+## クイックスタート
+
+```bash
+# 1. プロジェクト構造作成
+docs/setup-guide.md の Phase 1 を実行
+
+# 2. 依存関係インストール
+pip install -r requirements.txt
+
+# 3. 開発環境セットアップ
+python scripts/setup_hooks.py
+```
