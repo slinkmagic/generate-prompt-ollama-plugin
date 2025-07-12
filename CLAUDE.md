@@ -13,9 +13,24 @@ Stable Diffusion WebUI（SDWUI）用のプラグインで、Generateボタン押
 - **SDWUIとの統合**: 既存のワークフローを変更せずに使用可能
 
 ### 技術仕様
-- **対象プラットフォーム**: Stable Diffusion WebUI
-- **外部API**: Ollama API
+- **対象プラットフォーム**: Stable Diffusion WebUI (txt2imgのみ対応)
+- **外部API**: Ollama API (openhermes モデル)
 - **プラグイン形式**: SDWUIエクステンション
+- **通信方式**: one-shot API通信、逐次バッチ処理
+- **プロンプト拡張**: 元プロンプト + カンマ + 拡張プロンプト (150token以内)
+
+### 要件仕様（qa.md回答反映）
+- **Ollamaサーバー**: localhost:11434、openhermes モデル、30秒タイムアウト
+- **プロンプト拡張対象**: シーン・背景、色調・ムード、構図・カメラアングル、ライティング・照明、テーマ・コンセプト
+- **プロンプト拡張除外**: アーティスト名、技術・手法、スタイル情報
+- **プロンプトテンプレート**: 英語で指示、50token以内、応答フォーマット自由
+- **バリエーション**: ランダム要素追加、再現性不要
+- **エラーハンドリング**: API通信5回失敗で中断、UI通知、元プロンプトで続行
+- **UI/UX**: プログレスバー・ステータステキスト表示、プレビューなし
+- **設定管理**: settings.json（extensionsフォルダ内）、URL・数値validation、自動生成
+- **ログ出力**: console.log、タイムスタンプ付きJSON形式、API通信・プロンプト変換詳細
+- **技術統合**: extensionsフォルダ配置、実装方式自由、gradio要素からバッチカウント取得
+- **パフォーマンス**: メモリ1GB以下、CPU50%以下、info・errorログ出力
 
 ## アーキテクチャ
 
@@ -38,6 +53,7 @@ Stable Diffusion WebUI（SDWUI）用のプラグインで、Generateボタン押
 
 詳細な技術仕様と開発ガイドは以下のファイルに分割されています：
 
+- **[要件Q&A](docs/qa.md)**: 設計前の詳細要件確認と回答
 - **[開発環境・セットアップ](docs/development.md)**: 開発環境、セキュリティ要件、セットアップ手順
 - **[プロジェクト構造](docs/project-structure.md)**: ディレクトリ構成、モジュール役割、ファイル構成
 - **[開発ワークフロー](docs/workflow.md)**: Git Worktree、テスト戦略、CI/CD、コード品質管理
