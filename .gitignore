@@ -131,6 +131,39 @@ Desktop.ini
 settings.local.json
 config.local.*
 
+# API Keys and Secrets (SECURITY CRITICAL)
+*.key
+*.pem
+*.p12
+*.pfx
+*secret*
+*password*
+*api_key*
+*apikey*
+*token*
+.secrets/
+secrets/
+credentials/
+auth/
+.auth
+*.credentials
+
+# Environment files with sensitive data
+.env*
+!.env.example
+!.env.template
+
+# Ollama API configuration
+ollama_config.json
+api_config.json
+user_config.json
+
+# SDWUI specific sensitive files
+models/
+checkpoints/
+*.ckpt
+*.safetensors
+
 # Logs
 *.log
 logs/
