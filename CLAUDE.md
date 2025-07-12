@@ -30,7 +30,7 @@ Stable Diffusion WebUI（SDWUI）用のプラグインで、Generateボタン押
 - **設定管理**: settings.json（extensionsフォルダ内）、URL・数値validation、自動生成
 - **ログ出力**: console.log、タイムスタンプ付きJSON形式、API通信・プロンプト変換詳細
 - **技術統合**: extensionsフォルダ配置、実装方式自由、gradio要素からバッチカウント取得
-- **パフォーマンス**: メモリ1GB以下、CPU50%以下、info・errorログ出力
+- **パフォーマンス**: info・errorログ出力
 
 ## アーキテクチャ
 
