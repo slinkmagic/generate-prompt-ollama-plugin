@@ -1,0 +1,64 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## プロジェクト概要
+
+Stable Diffusion WebUI（SDWUI）用のプラグインで、Generateボタン押下時にOllama APIを使用してプロンプトを自動拡張する機能を提供します。
+
+### 主要機能
+- **プロンプト自動拡張**: Generateボタン押下時に、現在のプロンプトをOllama APIに送信し、不足している情報を自動補完
+- **バッチ処理対応**: Batch Countごとに個別にOllama APIと通信し、各バッチで異なるプロンプト拡張を実行
+- **多様な画像生成**: 1回のGenerateで様々なパターンの画像を生成できるよう、プロンプトをバリエーション豊かに拡張
+- **SDWUIとの統合**: 既存のワークフローを変更せずに使用可能
+
+### 技術仕様
+- **対象プラットフォーム**: Stable Diffusion WebUI
+- **外部API**: Ollama API
+- **プラグイン形式**: SDWUIエクステンション
+
+## アーキテクチャ
+
+### コア機能
+1. **フックシステム**: SDWUIのGenerate処理にフックして、プロンプト送信前に割り込み処理を実行
+2. **Ollama通信モジュール**: Ollama APIとの通信を管理し、プロンプト拡張リクエストを処理
+3. **プロンプト処理エンジン**: 元のプロンプトと拡張されたプロンプトを適切に統合
+
+### データフロー
+```
+ユーザー入力 → SDWUIフロントエンド → [プラグイン割り込み] → Batch Count分だけループ → Ollama API通信 → プロンプト拡張 → SDWUI生成処理
+```
+
+### バッチ処理の詳細
+- SDWUIのBatch Count設定に応じて、指定された回数分Ollama APIと通信
+- 各バッチで異なるプロンプト拡張を行うことで、バリエーション豊かな画像生成を実現
+- バッチごとに独立したプロンプト処理により、同一設定でも多様性のある結果を取得
+
+## 開発環境
+
+### 権限設定
+- `.claude/settings.local.json`で基本的なbashコマンドの実行が許可されています
+
+### 開発要件
+- SDWUIプラグイン開発の知識
+- Ollama API仕様の理解
+- JavaScript/Python（SDWUIの実装言語に依存）
+- HTTP通信の実装
+
+### セットアップ手順
+1. SDWUIの拡張機能ディレクトリに配置
+2. Ollama APIエンドポイントの設定（デフォルト: http://localhost:11434）
+3. プロンプト拡張ルールの設定
+
+### 前提条件
+- Ollamaがローカル環境で起動済みであること
+- Ollama APIエンドポイント（http://localhost:11434）にアクセス可能であること
+
+## 実装方針
+
+### 段階的開発
+1. **基本プラグイン構造の実装**
+2. **Ollama API通信機能の実装**
+3. **プロンプト拡張ロジックの実装**
+4. **SDWUIとの統合テスト**
+5. **ユーザー設定機能の追加**
