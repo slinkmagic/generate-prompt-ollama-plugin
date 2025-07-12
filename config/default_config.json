@@ -1,0 +1,45 @@
+{
+  "ollama": {
+    "endpoint": "http://localhost:11434",
+    "model": "openhermes",
+    "timeout": 30,
+    "max_retries": 5
+  },
+  "prompt": {
+    "max_tokens": 150,
+    "template_language": "en",
+    "template_max_tokens": 50,
+    "expansion_targets": [
+      "scene",
+      "background", 
+      "mood",
+      "color_tone",
+      "composition",
+      "camera_angle",
+      "lighting",
+      "theme",
+      "concept"
+    ],
+    "expansion_excludes": [
+      "artist_name",
+      "technique",
+      "style_info"
+    ]
+  },
+  "ui": {
+    "show_progress": true,
+    "show_status": true,
+    "show_preview": false
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "json",
+    "include_timestamp": true,
+    "log_api_communication": true,
+    "log_prompt_conversion": true
+  },
+  "performance": {
+    "memory_limit_gb": 1,
+    "cpu_limit_percent": 50
+  }
+}
